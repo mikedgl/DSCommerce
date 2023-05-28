@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 
 import java.util.List;
 import java.util.Set;
@@ -25,7 +24,6 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Double price;
-    @Column(name = "img_url")
     private String imgUrl;
     @ManyToMany
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
