@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +27,7 @@ public class Order {
     private User client;
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> orderItems;
 
 }
