@@ -7,7 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +31,9 @@ public class Order {
     private Payment payment;
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> orderItems;
+
+    public List<Product> getProducts(){
+        return this.orderItems.stream().map(orderItem -> orderItem.getProduct()).toList();
+    }
 
 }
