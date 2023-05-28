@@ -6,26 +6,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_user")
-public class User {
+@Table(name = "tb_order")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private String name;
-    private String email;
-    private String phone;
-    private LocalDate birthDate;
-    private String password;
-    @OneToMany(mappedBy = "client")
-    private List<Order> orders;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant moment;
+    private OrderStatus status;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;
 
 }
