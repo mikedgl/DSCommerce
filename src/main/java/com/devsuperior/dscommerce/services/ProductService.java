@@ -28,4 +28,12 @@ public class ProductService {
         Page<Product> products = productRepository.findAll(pageable);
         return products.map(product -> modelMapper.map(product, ProductDTO.class));
     }
+
+    @Transactional
+    public ProductDTO saveProduct(ProductDTO productDTO){
+        Product product = modelMapper.map(productDTO, Product.class);
+        productRepository.save(product);
+        return modelMapper.map(product, ProductDTO.class);
+    }
+
 }
