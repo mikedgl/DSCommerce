@@ -36,4 +36,19 @@ public class ProductService {
         return modelMapper.map(product, ProductDTO.class);
     }
 
+    @Transactional
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO){
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found."));
+        copyProperties(productDTO, product);
+        productRepository.save(product);
+        return modelMapper.map(product, ProductDTO.class);
+    }
+
+    private void copyProperties(ProductDTO origin, Product destiny){
+        destiny.setName(origin.getName());
+        destiny.setDescription(origin.getDescription());
+        destiny.setPrice(origin.getPrice());
+        destiny.setImgUrl(origin.getImgUrl());
+    }
+
 }

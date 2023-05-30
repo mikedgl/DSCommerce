@@ -42,4 +42,14 @@ public class ProductController {
         return ResponseEntity.created(uri).body(persistedProduct);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO){
+        try {
+            ProductDTO updatedProduct = productService.updateProduct(id, productDTO);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
