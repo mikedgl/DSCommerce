@@ -37,8 +37,14 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO){
+    public void deleteProduct(Long id){
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found."));
+        productRepository.delete(product);
+    }
+
+    @Transactional
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO){
+        Product product = productRepository.getReferenceById(id);
         copyProperties(productDTO, product);
         productRepository.save(product);
         return modelMapper.map(product, ProductDTO.class);
