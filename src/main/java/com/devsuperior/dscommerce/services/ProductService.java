@@ -3,6 +3,7 @@ package com.devsuperior.dscommerce.services;
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
+import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found."));
         return modelMapper.map(product, ProductDTO.class);
     }
 
@@ -38,13 +39,13 @@ public class ProductService {
 
     @Transactional
     public void deleteProduct(Long id){
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found."));
         productRepository.delete(product);
     }
 
     @Transactional
     public ProductDTO updateProduct(Long id, ProductDTO productDTO){
-        Product product = productRepository.getReferenceById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found."));
         copyProperties(productDTO, product);
         productRepository.save(product);
         return modelMapper.map(product, ProductDTO.class);
